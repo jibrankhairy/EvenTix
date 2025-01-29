@@ -352,8 +352,8 @@ const EventForm = ({ mode, initialData }: EventFormProps) => {
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-700
-                    hover:file:bg-blue-100"
+                    file:bg-violet-50 file:text-violet-700
+                    hover:file:bg-violet-100"
                 />
               )}
             </div>
@@ -363,7 +363,7 @@ const EventForm = ({ mode, initialData }: EventFormProps) => {
         <Button
           type="submit"
           disabled={isPending}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-violet-600 to-violet-800 hover:from-violet-700 hover:to-violet-900 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
         >
           {isPending ? (
             <>
