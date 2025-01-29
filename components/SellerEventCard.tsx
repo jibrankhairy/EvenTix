@@ -112,7 +112,7 @@ export default function SellerEventCard({
                   </span>
                 </div>
                 <p className="text-2xl font-semibold text-gray-900">
-                  £
+                  $
                   {event.is_cancelled
                     ? event.metrics.refundedTickets * event.price
                     : event.metrics.revenue}

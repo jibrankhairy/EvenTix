@@ -63,7 +63,7 @@ const EventPage = () => {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
                     <div className="flex items-center text-gray-600 mb-1">
-                      <CalendarDays className="w-5 h-5 mr-2 text-blue-600" />
+                      <CalendarDays className="w-5 h-5 mr-2 text-violet-600" />
                       <span className="text-sm font-medium">Date</span>
                     </div>
                     <p className="text-gray-900">
@@ -73,7 +73,7 @@ const EventPage = () => {
 
                   <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
                     <div className="flex items-center text-gray-600 mb-1">
-                      <MapPin className="w-5 h-5 mr-2 text-blue-600" />
+                      <MapPin className="w-5 h-5 mr-2 text-violet-600" />
                       <span className="text-sm font-medium">Location</span>
                     </div>
                     <p className="text-gray-900">{event.location}</p>
@@ -81,15 +81,15 @@ const EventPage = () => {
 
                   <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
                     <div className="flex items-center text-gray-600 mb-1">
-                      <Ticket className="w-5 h-5 mr-2 text-blue-600" />
+                      <Ticket className="w-5 h-5 mr-2 text-violet-600" />
                       <span className="text-sm font-medium">Price</span>
                     </div>
-                    <p className="text-gray-900">£{event.price.toFixed(2)}</p>
+                    <p className="text-gray-900">${event.price.toFixed(2)}</p>
                   </div>
 
                   <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
                     <div className="flex items-center text-gray-600 mb-1">
-                      <Users className="w-5 h-5 mr-2 text-blue-600" />
+                      <Users className="w-5 h-5 mr-2 text-violet-600" />
                       <span className="text-sm font-medium">Availability</span>
                     </div>
                     <p className="text-gray-900">
@@ -100,7 +100,7 @@ const EventPage = () => {
                 </div>
 
                 {/* Additional Event Information */}
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-6">
+                <div className="bg-violet-50 border border-violet-100 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-violet-900 mb-2">
                     Event Information
                   </h3>
@@ -124,7 +124,7 @@ const EventPage = () => {
                     />
                   ) : (
                     <SignInButton>
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+                      <Button className="w-full bg-gradient-to-r from-violet-600 to-violet-800 hover:from-violet-700 hover:to-violet-900 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
                         Sign in to buy tickets
                       </Button>
                     </SignInButton>
