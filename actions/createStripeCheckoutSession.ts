@@ -27,23 +27,27 @@ export async function createStripeCheckoutSession({
   // Get event details
   const event = await convex.query(api.events.getById, { eventId });
   if (!event) throw new Error("Event not found");
+  console.log("Event:", event);
 
   // Get waiting list entry
   const queuePosition = await convex.query(api.waitingList.getQueuePosition, {
     eventId,
     userId,
   });
+  console.log("Queue Position:", queuePosition);
 
   if (!queuePosition || queuePosition.status !== "offered") {
     throw new Error("No valid ticket offer found");
   }
 
+  // Get Stripe Connect ID for the event owner
   const stripeConnectId = await convex.query(
     api.users.getUsersStripeConnectId,
     {
       userId: event.userId,
     }
   );
+  console.log("Stripe Connect ID:", stripeConnectId);
 
   if (!stripeConnectId) {
     throw new Error("Stripe Connect ID not found for owner of the event!");
@@ -59,36 +63,41 @@ export async function createStripeCheckoutSession({
     waitingListId: queuePosition._id,
   };
 
-  // Create Stripe Checkout Session
-  const session = await stripe.checkout.sessions.create(
-    {
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "gbp",
-            product_data: {
-              name: event.name,
-              description: event.description,
+  try {
+    // Create Stripe Checkout Session
+    const session = await stripe.checkout.sessions.create(
+      {
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "gbp",
+              product_data: {
+                name: event.name,
+                description: event.description,
+              },
+              unit_amount: Math.round(event.price * 100),
             },
-            unit_amount: Math.round(event.price * 100),
+            quantity: 1,
           },
-          quantity: 1,
+        ],
+        payment_intent_data: {
+          application_fee_amount: Math.round(event.price * 100 * 0.01),
         },
-      ],
-      payment_intent_data: {
-        application_fee_amount: Math.round(event.price * 100 * 0.01),
+        expires_at: Math.floor(Date.now() / 1000) + DURATIONS.TICKET_OFFER / 1000,
+        mode: "payment",
+        success_url: `${baseUrl}/tickets/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${baseUrl}/event/${eventId}`,
+        metadata,
       },
-      expires_at: Math.floor(Date.now() / 1000) + DURATIONS.TICKET_OFFER / 1000, // 30 minutes (stripe checkout minimum expiration time)
-      mode: "payment",
-      success_url: `${baseUrl}/tickets/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/event/${eventId}`,
-      metadata,
-    },
-    {
-      stripeAccount: stripeConnectId,
-    }
-  );
+      {
+        stripeAccount: stripeConnectId,
+      }
+    );
 
-  return { sessionId: session.id, sessionUrl: session.url };
+    return { sessionId: session.id, sessionUrl: session.url };
+  } catch (error) {
+    console.error("Error creating Stripe Checkout Session:", error);
+    throw new Error("Failed to create Stripe Checkout Session");
+  }
 }

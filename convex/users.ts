@@ -29,18 +29,6 @@ export const updateOrCreateUserStripeConnectId = mutation({
   },
 });
 
-export const getUserById = query({
-  args: { userId: v.string() },
-  handler: async (ctx, { userId }) => {
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_user_id", (q) => q.eq("userId", userId))
-      .first();
-
-    return user;
-  },
-});
-
 export const updateUser = mutation({
   args: {
     userId: v.string(),
@@ -72,5 +60,17 @@ export const updateUser = mutation({
     });
 
     return newUserId;
+  },
+});
+
+export const getUserById = query({
+  args: { userId: v.string() },
+  handler: async (ctx, { userId }) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", (q) => q.eq("userId", userId))
+      .first();
+
+    return user;
   },
 });

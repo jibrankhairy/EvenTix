@@ -1,5 +1,5 @@
 "use client";
-import { updateUser } from "@/convex/users";
+// import { updateUser } from "@/convex/users";
 import { useMutation } from "convex/react";
 import { useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
